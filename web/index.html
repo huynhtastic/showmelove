@@ -29,5 +29,31 @@
     }
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
+
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCUckgtabheczEzzP1Ym0ym2XR1zwzgPZI",
+      authDomain: "showmelove-8f421.firebaseapp.com",
+      databaseURL: "https://showmelove-8f421.firebaseio.com",
+      projectId: "showmelove-8f421",
+      storageBucket: "showmelove-8f421.appspot.com",
+      messagingSenderId: "176929001108",
+      appId: "1:176929001108:web:f4846ec901685b3dec2e81",
+      measurementId: "G-NK06RXLDT3"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
 </body>
 </html>
