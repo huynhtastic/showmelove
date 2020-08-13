@@ -1,75 +1,88 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:showsomelove/services/authentication.dart';
 
 class Authenticate extends StatefulWidget {
+  static const routeName = 'authenticate';
+
   @override
-  _AuthenticateState createState() => _AuthenticateState();
+  AuthenticateState createState() => AuthenticateState();
 }
 
-class _AuthenticateState extends State<Authenticate> {
-  final _formKey = GlobalKey<FormState>();
-  bool _isLogin = true;
-  String _email;
-  String _password;
+class AuthenticateState extends State<Authenticate> {
+  final formKey = GlobalKey<FormState>();
+  bool isLogin = true;
+  String email;
+  String password;
+  String name;
 
-  void submitForm() async {
-    if (_formKey.currentState.validate()) {
-      AuthResult result;
-      final auth = FirebaseAuth.instance;
-
-      if (_isLogin) {
-        result = await auth.signInWithEmailAndPassword(
-            email: _email, password: _password);
+  void submitForm(BuildContext context) async {
+    if (formKey.currentState.validate()) {
+      final auth = AuthenticationService();
+      if (isLogin) {
+        await auth.signInUser(email, password);
       } else {
-        result = await auth.createUserWithEmailAndPassword(
-            email: _email, password: _password);
+        await auth.registerUser(email, password, name);
       }
-
-      print(result.user.uid);
     }
   }
 
+  Widget nameField() => isLogin
+      ? Container()
+      : Column(
+          children: [
+            SizedBox(height: 24),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Name'),
+              onChanged: (val) => setState(() => name = val),
+              validator: _requiredValidator,
+            ),
+          ],
+        );
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 400,
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                decoration: InputDecoration(hintText: 'Email'),
-                onChanged: (val) => setState(() => _email = val),
-                validator: _emailValidator,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              SizedBox(height: 24),
-              TextFormField(
-                decoration: InputDecoration(hintText: 'Password'),
-                onChanged: (val) => setState(() => _password = val),
-                validator: (val) =>
-                    val.isEmpty ? 'A password is required' : null,
-                obscureText: true,
-              ),
-              SizedBox(height: 48),
-              RaisedButton(
-                color: Colors.lightGreen,
-                onPressed: submitForm,
-                child: Text(_isLogin ? 'Login' : 'Register'),
-              ),
-              SizedBox(height: 48),
-              RaisedButton(
-                elevation: 0.0,
-                color: Colors.transparent,
-                onPressed: () => setState(() => _isLogin = !_isLogin),
-                child: Text(
-                  _isLogin ? 'Register here' : 'Login here',
-                  style: TextStyle(color: Colors.blue),
+    return Scaffold(
+      body: Center(
+        child: Container(
+          width: 400,
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(hintText: 'Email'),
+                  onChanged: (val) => setState(() => email = val),
+                  validator: _emailValidator,
+                  keyboardType: TextInputType.emailAddress,
                 ),
-              )
-            ],
+                SizedBox(height: 24),
+                TextFormField(
+                  decoration: InputDecoration(hintText: 'Password'),
+                  onChanged: (val) => setState(() => password = val),
+                  validator: (val) =>
+                      val.isEmpty ? 'A password is required' : null,
+                  obscureText: true,
+                ),
+                nameField(),
+                SizedBox(height: 48),
+                RaisedButton(
+                  color: Colors.lightGreen,
+                  onPressed: () => submitForm(context),
+                  child: Text(isLogin ? 'Login' : 'Register'),
+                ),
+                SizedBox(height: 48),
+                RaisedButton(
+                  elevation: 0.0,
+                  color: Colors.transparent,
+                  onPressed: () => setState(() => isLogin = !isLogin),
+                  child: Text(
+                    isLogin ? 'Register here' : 'Login here',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -84,6 +97,15 @@ String _emailValidator(String email) {
 
   if (!regex.hasMatch(email)) {
     return 'Invalid email';
+  }
+
+  return null;
+}
+
+// TODO: Move to util
+String _requiredValidator(String val) {
+  if (val.isEmpty) {
+    return 'A name is required';
   }
 
   return null;
