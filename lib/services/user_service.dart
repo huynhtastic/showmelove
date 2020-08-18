@@ -38,7 +38,7 @@ class UserService {
       snap.documents
           .map(
             (doc) => Post(
-              doc.data['name'] ?? '',
+              doc.data['recipient'] ?? '',
               doc.data['message'] ?? '',
             ),
           )

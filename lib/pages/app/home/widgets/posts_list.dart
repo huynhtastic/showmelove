@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/post.dart';
@@ -12,13 +11,28 @@ class PostsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: this.service.getPosts,
-      builder: (context, snap) {
-        print(snap.hasData);
-        if (snap.hasData) {
-          print(snap.data);
+      builder: (context, AsyncSnapshot<List<Post>> snap) {
+        if (snap.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
         }
-        return Text('hello');
+
+        if (!snap.hasData) {
+          return Text('You have no memories to view!');
+        }
+
+        return ListView(
+          children: snap.data.map(_toListTile).toList(),
+        );
       },
     );
   }
 }
+
+Widget _toListTile(Post post) => Card(
+      child: ListTile(
+        title: Text(
+          post.recipient,
+        ),
+        subtitle: Text(post.message),
+      ),
+    );
