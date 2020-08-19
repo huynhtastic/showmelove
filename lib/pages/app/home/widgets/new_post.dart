@@ -1,3 +1,6 @@
+import 'dart:html';
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:showsomelove/models/user.dart';
@@ -12,6 +15,7 @@ class _NewPostState extends State<NewPost> {
   final formKey = new GlobalKey<FormState>();
   String recipient;
   String message;
+  Uint8List uploadedImage;
 
   Future<void> submitForm() async {
     if (formKey.currentState.validate()) {
@@ -25,8 +29,37 @@ class _NewPostState extends State<NewPost> {
     }
   }
 
+  _startFilePicker() async {
+    final uploadInput = FileUploadInputElement();
+    uploadInput.accept = 'image/*';
+    uploadInput.click();
+
+    uploadInput.onChange.listen((e) {
+      // read file content as dataURL
+      final files = uploadInput.files;
+      if (files.length == 1) {
+        final file = files[0];
+        final reader = FileReader();
+
+        reader.onLoadEnd.listen((e) {
+          print(reader.result);
+          setState(() {
+            uploadedImage = reader.result;
+          });
+        });
+
+        reader.onError.listen((fileEvent) {
+          print('ERROR');
+        });
+
+        reader.readAsArrayBuffer(file);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(uploadedImage);
     return Center(
       child: Container(
         width: 600,
@@ -46,6 +79,11 @@ class _NewPostState extends State<NewPost> {
                 decoration: InputDecoration(labelText: 'Your message:'),
                 validator: _requiredValidator,
                 onChanged: (val) => setState(() => message = val),
+              ),
+              SizedBox(height: 24),
+              RaisedButton(
+                onPressed: _startFilePicker,
+                child: Text('Add a picture'),
               ),
               SizedBox(height: 48),
               RaisedButton(
