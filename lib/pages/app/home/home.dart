@@ -32,10 +32,14 @@ class _HomeState extends State<Home> {
 
         return Scaffold(
           appBar: AppBar(
+            title: Text('My Posts'),
             actions: [
               MaterialButton(
                 onPressed: () async => auth.signOut(),
-                child: Text('Sign Out'),
+                child: Text(
+                  'Sign Out',
+                  style: TextStyle(color: Colors.white),
+                ),
               )
             ],
           ),

@@ -19,8 +19,9 @@ class AuthenticationService {
     String name,
   ) async {
     try {
-      await fbAuth.createUserWithEmailAndPassword(
+      final result = await fbAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      await _initializeUserDocument(result, name);
       return null;
     } on PlatformException catch (e) {
       return e.code;
@@ -36,7 +37,8 @@ class AuthenticationService {
     }
   }
 
-  Future<void> _initializeUserDocument(User user, String name) async {
+  Future<void> _initializeUserDocument(AuthResult result, String name) async {
+    final user = User(result.user);
     final service = UserService(user);
     await service.updateUserData(name);
   }
