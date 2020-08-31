@@ -23,9 +23,10 @@ class AuthenticateState extends State<Authenticate> {
       if (isLogin) {
         errorCode = await auth.signInUser(email, password);
       } else {
-        await auth.registerUser(email, password, name);
+        errorCode = await auth.registerUser(email, password, name);
       }
       if (errorCode != null) {
+        print(errorCode);
         Scaffold.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
