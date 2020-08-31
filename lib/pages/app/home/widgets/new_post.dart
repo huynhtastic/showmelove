@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:showsomelove/models/user.dart';
 import 'package:showsomelove/services/user_service.dart';
+import 'package:showsomelove/utils/required_validator.dart';
 
 class NewPost extends StatefulWidget {
   @override
@@ -31,8 +32,6 @@ class _NewPostState extends State<NewPost> {
 
   Future<void> submitForm() async {
     if (formKey.currentState.validate()) {
-      print('validated');
-      // TODO: Move user to a provided value
       final auth = FirebaseAuth.instance;
       final user = User(await auth.currentUser());
       final service = new UserService(user);
@@ -54,7 +53,7 @@ class _NewPostState extends State<NewPost> {
             children: [
               TextFormField(
                 decoration: InputDecoration(labelText: 'Recipient:'),
-                validator: _requiredValidator,
+                validator: requiredValidator,
                 onChanged: (val) => setState(() => recipient = val),
               ),
               SizedBox(height: 24),
@@ -62,7 +61,7 @@ class _NewPostState extends State<NewPost> {
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: InputDecoration(labelText: 'Your message:'),
-                validator: _requiredValidator,
+                validator: requiredValidator,
                 onChanged: (val) => setState(() => message = val),
               ),
               SizedBox(height: 24),
@@ -81,13 +80,4 @@ class _NewPostState extends State<NewPost> {
       ),
     );
   }
-}
-
-// TODO: Move to util
-String _requiredValidator(String val) {
-  if (val.isEmpty) {
-    return 'A name is required';
-  }
-
-  return null;
 }

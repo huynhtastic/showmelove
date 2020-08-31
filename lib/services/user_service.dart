@@ -59,15 +59,13 @@ class UserService {
       .snapshots()
       .map(_postFromSnapshot);
 
-  List<Post> _postFromSnapshot(QuerySnapshot snap) =>
-      // TODO: Posts with empty fields?
-      snap.documents
-          .map(
-            (doc) => Post(
-              doc.data['recipient'] ?? '',
-              doc.data['message'] ?? '',
-              doc.data['imageUrl'] ?? '',
-            ),
-          )
-          .toList();
+  List<Post> _postFromSnapshot(QuerySnapshot snap) => snap.documents
+      .map(
+        (doc) => Post(
+          doc.data['recipient'] ?? '',
+          doc.data['message'] ?? '',
+          doc.data['imageUrl'] ?? '',
+        ),
+      )
+      .toList();
 }
