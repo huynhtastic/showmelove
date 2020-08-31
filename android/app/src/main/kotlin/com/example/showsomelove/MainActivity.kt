@@ -1,4 +1,4 @@
-package com.example.showsomelove
+package com.huynhtastic.showsomelove
 
 import io.flutter.embedding.android.FlutterActivity
 

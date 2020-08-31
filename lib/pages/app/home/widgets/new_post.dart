@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,39 +28,40 @@ class _NewPostState extends State<NewPost> {
     }
   }
 
-  _startFilePicker() async {
-    final uploadInput = FileUploadInputElement();
-    uploadInput.accept = 'image/*';
-    uploadInput.click();
+  // _startFilePicker() async {
+  //   final uploadInput = FileUploadInputElement();
+  //   uploadInput.accept = 'image/*';
+  //   uploadInput.click();
 
-    uploadInput.onChange.listen((e) {
-      // read file content as dataURL
-      final files = uploadInput.files;
-      if (files.length == 1) {
-        final file = files[0];
-        final reader = FileReader();
+  //   uploadInput.onChange.listen((e) {
+  //     // read file content as dataURL
+  //     final files = uploadInput.files;
+  //     if (files.length == 1) {
+  //       final file = files[0];
+  //       final reader = FileReader();
 
-        reader.onLoadEnd.listen((e) {
-          print(reader.result);
-          setState(() {
-            uploadedImage = reader.result;
-          });
-        });
+  //       reader.onLoadEnd.listen((e) {
+  //         print(reader.result);
+  //         setState(() {
+  //           uploadedImage = reader.result;
+  //         });
+  //       });
 
-        reader.onError.listen((fileEvent) {
-          print('ERROR');
-        });
+  //       reader.onError.listen((fileEvent) {
+  //         print('ERROR');
+  //       });
 
-        reader.readAsArrayBuffer(file);
-      }
-    });
-  }
+  //       reader.readAsArrayBuffer(file);
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     print(uploadedImage);
     return Center(
       child: Container(
+        padding: EdgeInsets.all(16.0),
         width: 600,
         child: Form(
           key: formKey,
@@ -82,7 +82,8 @@ class _NewPostState extends State<NewPost> {
               ),
               SizedBox(height: 24),
               RaisedButton(
-                onPressed: _startFilePicker,
+                // onPressed: _startFilePicker,
+                onPressed: () {},
                 child: Text('Add a picture'),
               ),
               SizedBox(height: 48),

@@ -7,6 +7,15 @@
         {
             "type": "dart",
             "request": "launch",
+            "name": "Android",
+            "args": [
+                "-d",
+                "PM1LHMA790904907"
+            ],
+        },
+        {
+            "type": "dart",
+            "request": "launch",
             "name": "Chrome",
             "args": [
                 "-d",
