@@ -26,7 +26,6 @@ class _HomeState extends State<Home> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           body = CircularProgressIndicator();
         } else if (snapshot.hasData) {
-          // body = Text('HELLO ${snapshot.data.email} YOU HAVE A HUGE DICK');
           final userService = UserService(User(snapshot.data));
           body = PostsList(userService);
         }

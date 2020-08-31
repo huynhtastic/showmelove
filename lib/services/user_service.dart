@@ -66,6 +66,7 @@ class UserService {
             (doc) => Post(
               doc.data['recipient'] ?? '',
               doc.data['message'] ?? '',
+              doc.data['imageUrl'] ?? '',
             ),
           )
           .toList();

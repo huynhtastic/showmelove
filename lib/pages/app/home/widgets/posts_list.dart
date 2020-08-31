@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/post.dart';
@@ -30,6 +31,16 @@ class PostsList extends StatelessWidget {
 
 Widget _toListTile(Post post) => Card(
       child: ListTile(
+        leading: post.imageUrl.isNotEmpty
+            ? CachedNetworkImage(
+                height: 50,
+                width: 50,
+                imageUrl: post.imageUrl,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              )
+            : null,
         title: Text(
           post.recipient,
         ),
