@@ -5,13 +5,15 @@ import 'package:showsomelove/models/user.dart';
 import './user_service.dart';
 
 class AuthenticationService {
+  final FirebaseAuth fbAuth;
   static const Map<String, String> errors = {
     'ERROR_USER_NOT_FOUND': 'Account not found',
     'ERROR_WRONG_PASSWORD': 'Incorrect password',
     'ERROR_EMAIL_ALREADY_IN_USE': 'Email in use',
     'ERROR_WEAK_PASSWORD': 'Password must be at least 6 characters',
   };
-  final fbAuth = FirebaseAuth.instance;
+
+  AuthenticationService(this.fbAuth);
 
   Future<String> registerUser(
     String email,

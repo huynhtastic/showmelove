@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:showsomelove/services/authentication.dart';
 import 'package:showsomelove/utils/required_validator.dart';
@@ -18,7 +19,7 @@ class AuthenticateState extends State<Authenticate> {
 
   void submitForm(BuildContext context) async {
     if (formKey.currentState.validate()) {
-      final auth = AuthenticationService();
+      final auth = AuthenticationService(FirebaseAuth.instance);
       String errorCode;
       if (isLogin) {
         errorCode = await auth.signInUser(email, password);
