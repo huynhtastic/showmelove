@@ -31,8 +31,9 @@ class AuthenticationService {
 
   Future<String> signInUser(String email, String password) async {
     try {
-      await fbAuth.signInWithEmailAndPassword(email: email, password: password);
-      return null;
+      final result = await fbAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return result.user != null ? null : 'ERROR_USER_NULL';
     } on PlatformException catch (e) {
       return e.code;
     }
