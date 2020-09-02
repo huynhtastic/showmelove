@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import 'auth.dart';
 import 'routes.dart';
+import 'services/authentication.dart';
 
 class Main extends StatelessWidget {
   @override
@@ -10,11 +12,18 @@ class Main extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       routes: routes,
-      home: Auth(auth: FirebaseAuth.instance),
+      home: Auth(),
     );
   }
 }
 
+void registerServices() {
+  final locator = GetIt.instance;
+  locator.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+  locator.registerSingleton<AuthenticationService>(AuthenticationService());
+}
+
 void main() {
+  registerServices();
   runApp(Main());
 }

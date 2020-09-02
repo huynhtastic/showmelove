@@ -5,9 +5,6 @@ import 'package:showsomelove/utils/required_validator.dart';
 
 class Authenticate extends StatefulWidget {
   static const routeName = 'authenticate';
-  final FirebaseAuth auth;
-
-  const Authenticate({Key key, @required this.auth}) : super(key: key);
 
   @override
   AuthenticateState createState() => AuthenticateState();
@@ -22,7 +19,7 @@ class AuthenticateState extends State<Authenticate> {
 
   void submitForm(BuildContext context) async {
     if (formKey.currentState.validate()) {
-      final auth = AuthenticationService(widget.auth);
+      final auth = AuthenticationService();
       String errorCode;
       if (isLogin) {
         errorCode = await auth.signInUser(email, password);

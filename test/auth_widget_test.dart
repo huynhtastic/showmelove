@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
 import 'package:showsomelove/auth.dart';
 import 'package:showsomelove/pages/app/home/home.dart';
@@ -25,13 +26,24 @@ class AuthMock extends Mock implements FirebaseAuth {
   }
 }
 
-MaterialApp _auth(AuthMock authMock) => MaterialApp(home: Auth(auth: authMock));
+MaterialApp _auth() => MaterialApp(home: Auth());
 
 void main() {
+  final getIt = GetIt.I;
+  setUp(() {
+    getIt.registerFactory<FirebaseAuth>(
+      () => AuthMock(),
+    );
+  });
+
+  tearDown(() {
+    getIt.reset();
+  });
+
   testWidgets(
     'should show loading widget while waiting for onAuthStateChanged stream',
     (WidgetTester tester) async {
-      await tester.pumpWidget(_auth(AuthMock()));
+      await tester.pumpWidget(_auth());
 
       final expected = find.byType(CircularProgressIndicator);
       expect(expected, findsOneWidget);
@@ -42,7 +54,7 @@ void main() {
   testWidgets(
     'should show authenticate widget if unauthorized',
     (WidgetTester tester) async {
-      await tester.pumpWidget(_auth(AuthMock()));
+      await tester.pumpWidget(_auth());
       await tester.pumpAndSettle();
 
       final expected = find.byType(Authenticate);
@@ -54,8 +66,11 @@ void main() {
     'should show home widget if authorized',
     (WidgetTester tester) async {
       final authMock = AuthMock(authStateChangedValues: [UserMock()]);
-      await tester.pumpWidget(_auth(authMock));
-      await tester.pump(Duration(milliseconds: 500));
+      getIt.unregister<FirebaseAuth>();
+      getIt.registerSingleton<FirebaseAuth>(authMock);
+
+      await tester.pumpWidget(_auth());
+      await tester.pump(Duration(seconds: 1));
 
       final expected = find.byType(Home);
       expect(expected, findsOneWidget);
