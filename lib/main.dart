@@ -9,6 +9,7 @@ import 'services/authentication.dart';
 class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    registerServices();
     return MaterialApp(
       title: 'Flutter Demo',
       routes: routes,
@@ -19,11 +20,11 @@ class Main extends StatelessWidget {
 
 void registerServices() {
   final locator = GetIt.instance;
+
   locator.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
   locator.registerSingleton<AuthenticationService>(AuthenticationService());
 }
 
 void main() {
-  registerServices();
   runApp(Main());
 }

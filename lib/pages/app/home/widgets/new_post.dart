@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:showsomelove/models/user.dart';
-import 'package:showsomelove/services/user_service.dart';
+import 'package:showsomelove/services/user.dart';
 import 'package:showsomelove/utils/required_validator.dart';
 
 class NewPost extends StatefulWidget {

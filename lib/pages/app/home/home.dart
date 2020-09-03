@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:showsomelove/widgets/animated_fab.dart';
 
 import '../../../models/user.dart';
-import '../../../services/user_service.dart';
+import '../../../services/user.dart';
 import 'widgets/new_post.dart';
 import 'widgets/posts_list.dart';
 

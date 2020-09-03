@@ -16,6 +16,15 @@
         {
             "type": "dart",
             "request": "launch",
+            "name": "PH-1 LAN",
+            "args": [
+                "-d",
+                "192.168.0.35:5555",
+            ],
+        },
+        {
+            "type": "dart",
+            "request": "launch",
             "name": "Chrome",
             "args": [
                 "-d",

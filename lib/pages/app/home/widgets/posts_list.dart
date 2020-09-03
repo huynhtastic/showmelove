@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/post.dart';
-import '../../../../services/user_service.dart';
+import '../../../../services/user.dart';
 
 class PostsList extends StatelessWidget {
   final UserService service;

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:showsomelove/models/user.dart';
 
-import './user_service.dart';
+import 'user.dart';
 
 class AuthenticationService {
   final FirebaseAuth fbAuth = GetIt.I.get<FirebaseAuth>();
