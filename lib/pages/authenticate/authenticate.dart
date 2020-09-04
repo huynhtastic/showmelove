@@ -48,6 +48,7 @@ class AuthenticateState extends State<Authenticate> {
               decoration: InputDecoration(labelText: 'Name'),
               onChanged: (val) => setState(() => name = val),
               validator: requiredValidator,
+              key: Key('name'),
             ),
           ],
         );
@@ -69,6 +70,7 @@ class AuthenticateState extends State<Authenticate> {
                     onChanged: (val) => setState(() => email = val),
                     validator: _emailValidator,
                     keyboardType: TextInputType.emailAddress,
+                    key: Key('email'),
                   ),
                   SizedBox(height: 24),
                   TextFormField(
@@ -77,6 +79,7 @@ class AuthenticateState extends State<Authenticate> {
                     validator: (val) =>
                         val.isEmpty ? 'A password is required' : null,
                     obscureText: true,
+                    key: Key('password'),
                   ),
                   nameField(),
                   SizedBox(height: 48),
@@ -84,12 +87,14 @@ class AuthenticateState extends State<Authenticate> {
                     color: Colors.lightGreen,
                     onPressed: () => submitForm(context),
                     child: Text(isLogin ? 'Login' : 'Register'),
+                    key: Key('authenticate'),
                   ),
                   SizedBox(height: 48),
                   RaisedButton(
                     elevation: 0.0,
                     color: Colors.transparent,
                     onPressed: () => setState(() => isLogin = !isLogin),
+                    key: Key('toggleAuth'),
                     child: Text(
                       isLogin ? 'Register here' : 'Login here',
                       style: TextStyle(color: Colors.blue),
