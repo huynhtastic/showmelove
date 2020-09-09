@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:showsomelove/widgets/animated_fab.dart';
 
 import '../../../models/user.dart';
@@ -17,10 +18,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuth.instance;
+    final auth = GetIt.I.get<FirebaseAuth>();
+
     return FutureBuilder<FirebaseUser>(
       future: auth.currentUser(),
       builder: (context, snapshot) {
+        print(snapshot);
         Widget body = Text('NO DATA');
 
         if (snapshot.connectionState == ConnectionState.waiting) {

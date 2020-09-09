@@ -16,8 +16,9 @@ class _AnimatedFabState extends State<AnimatedFab> {
   Widget build(BuildContext context) {
     return OpenContainer(
       closedBuilder: (_, openContainer) {
+        print('rendering fab');
         return FloatingActionButton(
-          // elevation: 0.0,
+          key: Key('newPost'),
           onPressed: openContainer,
           backgroundColor: Colors.blue,
           child: Icon(Icons.add, color: Colors.white),
