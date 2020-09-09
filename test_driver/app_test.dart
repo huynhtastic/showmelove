@@ -66,17 +66,18 @@ void main() {
       final recipient = find.byValueKey('recipient');
       final message = find.byValueKey('message');
       final createPost = find.byValueKey('submitPost');
+      final exitViewPost = find.byValueKey('exitViewPost');
 
       await driver.tap(newPost);
-      final exists = await isPresent(find.byType('NewPost'), driver);
-      print(exists);
-      expect(exists, isTrue);
-      // await driver.tap(recipient);
-      // await driver.enterText('test recipient');
-      // await driver.tap(message);
-      // await driver.enterText('test message');
 
-      // await driver.tap(createPost);
+      await driver.tap(recipient);
+      await driver.enterText('test recipient');
+      await driver.tap(message);
+      await driver.enterText('test message');
+
+      await driver.tap(createPost);
+
+      await driver.tap(exitViewPost);
     });
   });
 
