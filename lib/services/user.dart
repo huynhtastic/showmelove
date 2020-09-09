@@ -22,14 +22,14 @@ class UserService {
         this.fsAdapter = fsAdapter ?? FirestoreAdapter(),
         this.storage = storage ?? StorageService();
 
-  Future<String> createPost(
+  Future<Post> createPost(
       String recipientName, String message, File image) async {
     final imageUrl =
         image != null ? await storage.uploadToFirebase(image) : null;
-    final newPostID =
+    final newPost =
         await fsAdapter.createPost(user.uid, recipientName, message, imageUrl);
 
-    return newPostID;
+    return newPost;
   }
 
   Stream<List<Post>> get getPosts => fsAdapter.getPosts(user.uid);
