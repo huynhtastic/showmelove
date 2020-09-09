@@ -15,14 +15,12 @@ class _AnimatedFabState extends State<AnimatedFab> {
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
-      closedBuilder: (_, openContainer) {
-        return FloatingActionButton(
-          // elevation: 0.0,
-          onPressed: openContainer,
-          backgroundColor: Colors.blue,
-          child: Icon(Icons.add, color: Colors.white),
-        );
-      },
+      closedBuilder: (_, openContainer) => FloatingActionButton(
+        key: Key('newPost'),
+        onPressed: openContainer,
+        backgroundColor: Colors.blue,
+        child: Icon(Icons.add, color: Colors.white),
+      ),
       openColor: Colors.blue,
       closedElevation: 5.0,
       closedShape:

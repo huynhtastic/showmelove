@@ -21,8 +21,10 @@ class Main extends StatelessWidget {
 void registerServices() {
   final locator = GetIt.instance;
 
-  locator.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
-  locator.registerSingleton<AuthenticationService>(AuthenticationService());
+  if (!locator.isRegistered(instance: FirebaseAuth.instance)) {
+    locator.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+    locator.registerSingleton<AuthenticationService>(AuthenticationService());
+  }
 }
 
 void main() {

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:mockito/mockito.dart';
+import 'package:showsomelove/models/post.dart';
 import 'package:showsomelove/models/user.dart';
 import 'package:showsomelove/services/adapters/firestore.dart';
 import 'package:showsomelove/services/storage.dart';
@@ -35,9 +36,10 @@ main() {
           .thenAnswer((_) async => imageUrl);
 
       final recipientName = 'recipientName';
+      final sender = 'sender';
       final message = 'message';
 
-      final expected = 'newPostID';
+      final expected = Post(sender, recipientName, message, '');
 
       final _firestoreAdapter = _FirestoreAdapter();
       when(_firestoreAdapter.createPost(any, recipientName, message, imageUrl))
@@ -60,9 +62,10 @@ main() {
           .thenThrow(Exception('A null slipped to uploadToFirebase'));
 
       final recipientName = 'recipientName';
+      final sender = 'sender';
       final message = 'message';
 
-      final expected = 'newPostID';
+      final expected = Post(sender, recipientName, message, '');
 
       final _firestoreAdapter = _FirestoreAdapter();
       when(_firestoreAdapter.createPost(any, recipientName, message, null))

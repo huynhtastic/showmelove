@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:showsomelove/widgets/animated_fab.dart';
 
 import '../../../models/user.dart';
 import '../../../services/user.dart';
 import 'widgets/new_post.dart';
 import 'widgets/posts_list.dart';
+
+final getIt = GetIt.I;
 
 class Home extends StatefulWidget {
   static const routeName = 'home';
@@ -17,7 +20,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuth.instance;
+    final auth = GetIt.I.get<FirebaseAuth>();
+
     return FutureBuilder<FirebaseUser>(
       future: auth.currentUser(),
       builder: (context, snapshot) {
@@ -27,7 +31,10 @@ class _HomeState extends State<Home> {
           body = CircularProgressIndicator();
         } else if (snapshot.hasData) {
           final userService = UserService(User(snapshot.data));
-          body = PostsList(userService);
+          if (!getIt.isRegistered<UserService>()) {
+            getIt.registerSingleton<UserService>(userService);
+          }
+          body = PostsList();
         }
 
         return Scaffold(

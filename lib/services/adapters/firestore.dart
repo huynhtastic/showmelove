@@ -17,7 +17,7 @@ class FirestoreAdapter {
     containsTestObject(firestore);
   }
 
-  Future<String> createPost(
+  Future<Post> createPost(
     String senderUid,
     String recipientName,
     String message,
@@ -35,7 +35,7 @@ class FirestoreAdapter {
       'posts': FieldValue.arrayUnion([newPost.documentID]),
     });
 
-    return newPost.documentID;
+    return _postFromDocument(await newPost.get());
   }
 
   Stream<List<Post>> getPosts(String uid) async* {
@@ -56,6 +56,7 @@ class FirestoreAdapter {
   }
 
   Post _postFromDocument(DocumentSnapshot doc) => Post(
+        doc.data['sender'] ?? '',
         doc.data['recipient'] ?? '',
         doc.data['message'] ?? '',
         doc.data['imageUrl'] ?? '',
