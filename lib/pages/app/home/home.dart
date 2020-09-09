@@ -8,6 +8,8 @@ import '../../../services/user.dart';
 import 'widgets/new_post.dart';
 import 'widgets/posts_list.dart';
 
+final getIt = GetIt.I;
+
 class Home extends StatefulWidget {
   static const routeName = 'home';
 
@@ -30,6 +32,8 @@ class _HomeState extends State<Home> {
           body = CircularProgressIndicator();
         } else if (snapshot.hasData) {
           final userService = UserService(User(snapshot.data));
+          getIt.registerSingleton<UserService>(userService);
+          // TODO: Switch to getIt
           body = PostsList(userService);
         }
 

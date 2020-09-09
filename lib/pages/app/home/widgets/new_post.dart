@@ -3,8 +3,10 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:showsomelove/models/user.dart';
+import 'package:showsomelove/pages/app/view_post.dart';
 import 'package:showsomelove/services/user.dart';
 import 'package:showsomelove/utils/required_validator.dart';
 
@@ -31,18 +33,19 @@ class _NewPostState extends State<NewPost> {
   }
 
   Future<void> submitForm() async {
+    print('submitting');
     if (formKey.currentState.validate()) {
-      final auth = FirebaseAuth.instance;
-      final user = User(await auth.currentUser());
-      final service = new UserService(user);
-
+      print('validated');
+      final service = GetIt.I.get<UserService>();
       await service.createPost(recipient, message, image);
+
+      print('navigating');
+      Navigator.pushReplacementNamed(context, ViewPost.routeName);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    print(uploadedImage);
     return Center(
       child: Container(
         padding: EdgeInsets.all(16.0),
@@ -52,6 +55,7 @@ class _NewPostState extends State<NewPost> {
           child: Column(
             children: [
               TextFormField(
+                key: Key('recipient'),
                 decoration: InputDecoration(labelText: 'Recipient:'),
                 validator: requiredValidator,
                 onChanged: (val) => setState(() => recipient = val),
@@ -59,6 +63,7 @@ class _NewPostState extends State<NewPost> {
               SizedBox(height: 24),
               TextFormField(
                 keyboardType: TextInputType.multiline,
+                key: Key('message'),
                 maxLines: null,
                 decoration: InputDecoration(labelText: 'Your message:'),
                 validator: requiredValidator,
@@ -71,6 +76,7 @@ class _NewPostState extends State<NewPost> {
               ),
               SizedBox(height: 48),
               RaisedButton(
+                key: Key('submitPost'),
                 onPressed: submitForm,
                 child: Text('Create'),
               ),
